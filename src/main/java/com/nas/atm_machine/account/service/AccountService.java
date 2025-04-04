@@ -10,9 +10,6 @@ public interface AccountService {
 
     public AccountBalance checkBalance(Long accountNumber);
 
-    List<Account> getAllAccounts();
-
     Account getAccountByAccountNumber(Long accountNumber);
 
-    void saveAccount(Account account);
 }

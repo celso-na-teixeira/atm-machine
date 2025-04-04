@@ -10,7 +10,6 @@ import java.util.Map;
 
 @Setter
 @Getter
-
 public class ATM {
     private BigDecimal AmountAvailable;
     private Map<Integer, Integer> notesAvailableMap;

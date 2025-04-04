@@ -23,38 +23,24 @@ public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository repository;
 
-    private final PasswordEncoder passwordEncoder;
-
-    public AccountServiceImpl(PasswordEncoder passwordEncoder, AccountRepository repository) {
-        this.passwordEncoder = passwordEncoder;
+    public AccountServiceImpl(AccountRepository repository) {
         this.repository = repository;
     }
 
     @Override
     public AccountBalance checkBalance(Long accountNumber) {
+        log.info("Checking balance");
         Account account = getAccountByAccountNumber(accountNumber);
-        return new AccountBalance(account.getOpeningBalance(), account.getAvailableBalance());
+        return new AccountBalanceBuilder()
+                .setBalance(account.getOpeningBalance())
+                .setAvailableBalance(account.getAvailableBalance())
+                .build();
     }
 
     @Override
     public Account getAccountByAccountNumber(Long accountNumber) {
+        log.info("Getting account by accountNumber");
         return repository.findByAccountNumber(accountNumber).orElseThrow(() -> new UsernameNotFoundException("Account not found"));
     }
-
-    @Override
-    public void saveAccount(Account account) {
-        repository.save(account);
-    }
-
-    @Override
-    public List<Account> getAllAccounts() {
-        List <Account> accounts = repository.findAll();
-        if (accounts == null | accounts.isEmpty()) {
-            log.error("Accounts not found!");
-            throw new RuntimeException();
-        }
-        return accounts;
-    }
-
 
 }

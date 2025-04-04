@@ -2,20 +2,22 @@ package com.nas.atm_machine.account.service;
 
 import lombok.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Map;
 
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 @ToString
-public class AccountBalance {
+public class AccountBalance implements Serializable {
 
     private BigDecimal balance;
     private BigDecimal availableBalance;
+    private BigDecimal amountWithdrew;
+    Map<Integer, Integer> dispensedNotes;
 
-    public AccountBalance(BigDecimal balance) {
-        this.balance = balance;
-    }
 
 }

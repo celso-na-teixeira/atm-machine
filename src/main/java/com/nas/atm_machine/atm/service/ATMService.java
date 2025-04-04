@@ -1,8 +1,6 @@
-package com.nas.atm_machine.atm;
+package com.nas.atm_machine.atm.service;
 
 import com.nas.atm_machine.account.service.AccountBalance;
-
-import java.math.BigDecimal;
 
 public interface ATMService {
 
