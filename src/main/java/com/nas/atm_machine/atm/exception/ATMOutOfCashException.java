@@ -1,6 +1,9 @@
 package com.nas.atm_machine.atm.exception;
 
-public class ATMOutOfCashException extends RuntimeException {
+public class ATMOutOfCashException extends BaseException {
+
+    public static String shortMessage = "Insufficient funds";
+
     public ATMOutOfCashException() {
         super();
     }

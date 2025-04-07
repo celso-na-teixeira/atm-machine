@@ -1,10 +1,7 @@
 package com.nas.atm_machine.account.service;
 
 import com.nas.atm_machine.account.dao.Account;
-import org.springframework.security.core.userdetails.UserDetailsService;
-
-import java.math.BigDecimal;
-import java.util.List;
+import com.nas.atm_machine.account.dto.AccountBalance;
 
 public interface AccountService {
 

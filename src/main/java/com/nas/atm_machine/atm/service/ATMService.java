@@ -1,6 +1,6 @@
 package com.nas.atm_machine.atm.service;
 
-import com.nas.atm_machine.account.service.AccountBalance;
+import com.nas.atm_machine.account.dto.AccountBalance;
 
 public interface ATMService {
 

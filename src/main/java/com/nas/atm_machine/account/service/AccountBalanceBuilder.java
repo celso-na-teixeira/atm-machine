@@ -1,5 +1,7 @@
 package com.nas.atm_machine.account.service;
 
+import com.nas.atm_machine.account.dto.AccountBalance;
+
 import java.math.BigDecimal;
 import java.util.Map;
 

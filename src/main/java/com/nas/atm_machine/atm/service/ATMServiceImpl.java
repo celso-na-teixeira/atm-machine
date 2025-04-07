@@ -1,7 +1,7 @@
 package com.nas.atm_machine.atm.service;
 
 import com.nas.atm_machine.account.dao.Account;
-import com.nas.atm_machine.account.service.AccountBalance;
+import com.nas.atm_machine.account.dto.AccountBalance;
 import com.nas.atm_machine.account.service.AccountBalanceBuilder;
 import com.nas.atm_machine.account.service.AccountService;
 import com.nas.atm_machine.atm.ATM;

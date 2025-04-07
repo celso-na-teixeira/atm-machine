@@ -1,6 +1,9 @@
 package com.nas.atm_machine.atm.exception;
 
-public class ATMException extends RuntimeException {
+public class ATMException extends BaseException {
+
+    public static String shortMessage = "Withdrawal failed";
+
     public ATMException() {
         super();
     }

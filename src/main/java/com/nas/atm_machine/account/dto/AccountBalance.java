@@ -1,4 +1,4 @@
-package com.nas.atm_machine.account.service;
+package com.nas.atm_machine.account.dto;
 
 import lombok.*;
 
