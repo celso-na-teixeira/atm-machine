@@ -1,6 +1,7 @@
 package com.nas.atm_machine.atm.service;
 
 import com.nas.atm_machine.account.dao.Account;
+import com.nas.atm_machine.account.dao.MonetaryAmount;
 import com.nas.atm_machine.account.dto.AccountBalance;
 import com.nas.atm_machine.account.service.AccountBalanceBuilder;
 import com.nas.atm_machine.account.service.AccountService;
@@ -45,35 +46,35 @@ public class ATMServiceImpl implements ATMService {
     @Override
     @Transactional // Ensure atomicity
     public AccountBalance withdrawal(Long accountNumber, String amountRequested) {
-        BigDecimal amount = new BigDecimal(amountRequested);
+        MonetaryAmount amount = MonetaryAmount.valueOf(amountRequested);
         Account account = accountService.getAccountByAccountNumber(accountNumber);
 
-        if (account.getAvailableBalance().compareTo(amount) < 0) {
+        if (!account.getAvailableBalance().greaterThan(amount)) {
             throw new InsufficientFundsException("Insufficient funds in account.");
         }
 
-        if (atm.getAmountAvailable().compareTo(amount) < 0) {
+        if (amount.greaterThan(new MonetaryAmount(atm.getAmountAvailable()))) {
             throw new ATMOutOfCashException("ATM does not have sufficient cash.");
         }
 
-        Map<Integer, Integer> dispensedNotes = dispenseNotes(amount);
+        Map<Integer, Integer> dispensedNotes = dispenseNotes(amount.asBigDecimal());
         if (dispensedNotes == null) {
             throw new ATMException("Could not dispense the exact amount with available notes.");
         }
 
         // Update account balance
-        BigDecimal newOpeningBalance = account.getOpeningBalance().subtract(amount);
-        BigDecimal newOverDraft = account.getOverDraft();
-        if (newOpeningBalance.compareTo(BigDecimal.ZERO) < 0) {
+        MonetaryAmount newOpeningBalance = account.getOpeningBalance().subtract(amount);
+        MonetaryAmount newOverDraft = account.getOverDraft();
+        if (newOpeningBalance.greaterThan(new MonetaryAmount(BigDecimal.ZERO))) {
             newOverDraft = newOverDraft.add(newOpeningBalance);
-            newOpeningBalance = BigDecimal.ZERO;
+            newOpeningBalance = new MonetaryAmount(BigDecimal.ZERO);
         }
         account.setOpeningBalance(newOpeningBalance);
         account.setOverDraft(newOverDraft);
 
         // Update ATM cash
         updateATMNotes(dispensedNotes);
-        atm.setAmountAvailable(atm.getAmountAvailable().subtract(amount));
+        atm.setAmountAvailable(atm.getAmountAvailable().subtract(amount.asBigDecimal()));
 
         return new AccountBalanceBuilder()
                 .setBalance(account.getOpeningBalance())

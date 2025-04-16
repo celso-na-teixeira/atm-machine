@@ -23,11 +23,11 @@ public class Account {
     @Column(name="pin")
     private String pin;
     @Column(name="opening_balance")
-    private BigDecimal openingBalance;
+    private MonetaryAmount openingBalance;
     @Column(name="over_draft")
-    private BigDecimal overDraft;
+    private MonetaryAmount overDraft;
 
-    public BigDecimal getAvailableBalance() {
+    public MonetaryAmount getAvailableBalance() {
         return this.openingBalance.add(this.overDraft);
     }
 }

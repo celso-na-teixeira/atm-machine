@@ -5,9 +5,10 @@ import com.nas.atm_machine.atm.WithdrawalRequest;
 import com.nas.atm_machine.atm.service.ATMService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.antlr.v4.runtime.misc.NotNull;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -21,7 +22,7 @@ public class ATMController {
     private final ATMService atmService;
 
     @PostMapping("/withdrawal")
-    public ResponseEntity<?> withdrawal(Principal principal, @NotNull @RequestBody WithdrawalRequest request) {
+    public ResponseEntity<?> withdrawal(Principal principal, @Validated @RequestBody WithdrawalRequest request) {
         log.info("Requesting withdrawal of: {}", request.getAmount());
         Long accountNumber = Long.parseLong(principal.getName());
         AccountBalance accountBalance = atmService.withdrawal(accountNumber, request.getAmount());
